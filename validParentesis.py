@@ -3,6 +3,7 @@ class Solution:
         self.stack = []
         if len(s) < 2:
             return False
+    
         for i in s:
             if i in "({[":
                 self.stack.append(i)
