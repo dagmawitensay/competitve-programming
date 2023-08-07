@@ -6,25 +6,16 @@
 #         self.right = right
 class Solution:
     def findMode(self, root: Optional[TreeNode]) -> List[int]:
-        store = []
         def helper(node):
             nonlocal store
             if node:
                 helper(node.left)
-                store.append(node.val)
+                store[node.val] = store.get(node.val, 0) + 1
                 helper(node.right)
-            
-        helper(root)
-        ans = set()
-        mode = 0
-        for i in store:
-            if store.count(i) > mode:
-                ans = []
-                ans.append(i)
-                mode = store.count(i)
-            elif store.count(i) == mode and i not in ans:
-                ans.append(i)
-            else:
-                continue
+                
         
-        return ans
+        store = {}
+        helper(root)
+        max_val = max(store.values())
+
+        return [key for key, val in store.items() if val == max_val]
