@@ -1,20 +1,25 @@
 n = int(input())
-adj_matrix = [list(map(int, input().split())) for _ in range(n)]
+k = int(input())
 
-def find_sources_and_sinks(adj_matrix):
-    sources = []
-    sinks = []
+class Undirected_graph:
+    def __init__(self, n):
+        self.adj_list = [[] for _ in range(n)]
     
-    n = len(adj_matrix)
-    for vertex in range(n):
-        if all(adj_matrix[i][vertex] == 0 for i in range(n)):
-               sources.append(vertex + 1)
-        
-        if all(adj_matrix[vertex][i] == 0 for i in range(n)):
-               sinks.append(vertex + 1)
-    
-    return sources, sinks
+    def add_edge(self, u, v):
+        self.adj_list[u - 1].append(v - 1)
+        self.adj_list[v - 1].append(u - 1)
 
-sources, sinks = find_sources_and_sinks(adj_matrix)
-print(len(sources), *sources)
-print(len(sinks), *sinks)
+    def vertex(self, u):
+        return self.adj_list[u - 1]
+
+
+graph = Undirected_graph(n)
+for i in range(k):
+    operation, *params = map(int, input().split())
+    if operation == 1:
+        u, v = params
+        graph.add_edge(u, v)
+    else:
+        u = params[-1]
+        neighbors = graph.vertex(u)
+        print(*neighbors)
