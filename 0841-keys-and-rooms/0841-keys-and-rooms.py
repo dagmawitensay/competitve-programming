@@ -1,19 +1,17 @@
+from collections import deque
 class Solution:
     def canVisitAllRooms(self, rooms: List[List[int]]) -> bool:
-        def dfs(node, visited):
-            if node in visited:
-                return
-            
-            visited.add(node)
-            for neigh in rooms[node]:
-                if neigh != node:
-                    dfs(neigh, visited)
-        
-            return visited
-    
-        visited = dfs(0, set())
+        queue = deque([0])
+        visited = set()
+        visited.add(0)
+        while queue:
+            node = queue.popleft()
+            for child in rooms[node]:
+                if child != node and child not in visited:
+                    queue.append(child)
+                    visited.add(child)
+        print(visited)
         if len(visited) == len(rooms):
             return True
         
         return False
-        
