@@ -1,16 +1,24 @@
 class Solution:
     def findRestaurant(self, list1: List[str], list2: List[str]) -> List[str]:
-        min_index = len(list1) + len(list2)
-        common_strings = []
+        dict1 = {}
+        store = []
+        ans = set()
 
-        for i in range(len(list1)):
-            for j in range(len(list2)):
-                if list1[i] == list2[j]:
-                    if i + j < min_index:
-                        common_strings = []
-                        common_strings.append(list1[i])
-                        min_index = i + j
-                    elif i + j == min_index:
-                        common_strings.append(list1[i])
+        for i, v in enumerate(list1):
+            dict1[v] = i
         
-        return common_strings
+        for i, v in enumerate(list2):
+            if v in dict1:
+                store.append((v, i + dict1[v]))
+        
+        store.sort(key=lambda x:x[1])
+
+        ans.add(store[0][0])
+        for i in range(1, len(store)):
+            if store[i][1] == store[i - 1][1] and store[i] not in ans:
+                ans.add(store[i - 1][0])
+                ans.add(store[i][0])
+            else:
+                break
+        
+        return list(ans)
