@@ -4,9 +4,8 @@ class Solution:
         remains = n % 7
         total = 0
 
-        for i in range(1, weeks + 1):
-            total += ((2 * i + 6) * 7) // 2
-        
-        total += ((2 * (weeks + 1) + remains - 1) * remains) // 2
+        total += (28 * weeks + 7 * weeks  * (weeks - 1) // 2)
+        for i in range(1, remains + 1):
+            total += weeks + i
         
         return total
