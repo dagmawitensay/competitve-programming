@@ -12,9 +12,10 @@ class Solution:
                 return
             
             for i in range(index, len(candidates)):
-                combination.append(candidates[i])
-                backtrack(i)
-                combination.pop()
+                if target - candidates[i] >= 0:
+                    combination.append(candidates[i])
+                    backtrack(i)
+                    combination.pop()
             
         backtrack(0)
         return ans
