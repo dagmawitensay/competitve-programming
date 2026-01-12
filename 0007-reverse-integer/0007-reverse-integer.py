@@ -8,5 +8,9 @@ class Solution:
             digit = x % 10
             x //= 10
             res = res * 10 + digit
-        
-        return -1 * res if is_negative else res
+     
+        if res > (2 ** 31) or res < (-2 ** 31):
+            return 0
+        elif is_negative:
+            return -1 * res
+        return res
