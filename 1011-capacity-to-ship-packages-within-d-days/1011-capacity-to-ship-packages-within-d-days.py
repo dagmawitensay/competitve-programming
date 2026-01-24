@@ -1,23 +1,31 @@
 class Solution:
     def shipWithinDays(self, weights: List[int], days: int) -> int:
-        def isPossible(capacity):
-            days_needed = 1
-            curr_load = 0
-            for weight in weights:
-                curr_load += weight
-                if curr_load > capacity:
-                    days_needed += 1
-                    curr_load = weight
-            
-            return days_needed <= days
-        
-        l,r = max(weights), sum(weights)
+        left = 1
+        right = max(weights)
 
-        while l < r:
-            mid = (l + r) // 2
-            if isPossible(mid):
-                r = mid
+        while left < right:
+            mid = left + (right - left) // 2
+            print("mid", mid)
+            if self.canSheep(mid, weights, days):
+                right = mid
             else:
-                l = mid + 1
+                left = mid + 1
         
-        return l
+        print(left, right)
+        
+        return left
+    
+
+    def canSheep(self, capacity, weights, days):
+        curr_sum = 0
+        test_days = 0
+        for weight in weights:
+            if curr_sum + weight > capacity:
+                days += 1
+                curr_sum = 0
+                curr_sum += weight
+        
+        if test_days > days:
+            return False
+        
+        return True
